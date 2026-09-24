@@ -107,9 +107,9 @@ export default function Timeline({ timeline }) {
                   </span>
                 </div>
                 <div className="timeline-item__card glass-card">
-                  {item.time && (
+                  {/* {item.time && (
                     <p className="timeline-item__time">{item.time}</p>
-                  )}
+                  )} */}
                   <h3 className="timeline-item__title">{item.title}</h3>
                   {item.description && (
                     <p className="timeline-item__desc">{item.description}</p>

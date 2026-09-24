@@ -38,14 +38,22 @@ export default function MenuSection({ menu }) {
     let items = enabledMenu;
 
     if (activeFilter !== 'all') {
-      items = items.filter((item) => item.category === activeFilter);
+      items = items.filter((item) => {
+        const cat = String(item.category || '').toLowerCase().replace(/[-_\s]/g, '');
+        const target = activeFilter.toLowerCase().replace(/[-_\s]/g, '');
+        return cat === target;
+      });
     }
 
     if (activeFilter === 'drinks' && activeDrinkFilter !== 'all-drinks') {
-      items = items.filter((item) => item.type === activeDrinkFilter);
+      items = items.filter((item) => {
+        const t = String(item.type || '').toLowerCase().replace(/[-_\s]/g, '');
+        const target = activeDrinkFilter.toLowerCase().replace(/[-_\s]/g, '');
+        return t === target;
+      });
     }
 
-    return items.sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
+    return items.sort((a, b) => (Number(a.sortOrder) || 0) - (Number(b.sortOrder) || 0));
   };
 
   const filtered = getFiltered();

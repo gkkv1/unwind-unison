@@ -2,6 +2,7 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
+// Reload with active .env configuration
 export default defineConfig({
   plugins: [react()],
 
