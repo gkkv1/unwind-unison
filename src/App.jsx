@@ -33,9 +33,16 @@ export default function App() {
   // so the app never waits on network
   const { config, menu, timeline, media } = useEventConfig();
 
-  // ---- Lenis smooth scroll (init after loading screen exits) ----
+  // ---- Lenis smooth scroll (desktop mousewheel only; mobile uses 120Hz native momentum) ----
   useEffect(() => {
     if (!loadingComplete) return;
+
+    // Detect touch / mobile screen
+    const isTouch = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768;
+    if (isTouch) {
+      // Mobile uses native hardware-accelerated momentum scrolling — zero lag, never gets stuck
+      return;
+    }
 
     const lenis = new Lenis({
       duration: 1.2,
@@ -44,17 +51,19 @@ export default function App() {
     });
     lenisRef.current = lenis;
 
-    // Keep ScrollTrigger in sync with Lenis
+    // Keep ScrollTrigger in sync with Lenis on desktop
     lenis.on('scroll', ScrollTrigger.update);
 
-    gsap.ticker.add((time) => {
+    const rafHandler = (time) => {
       lenis.raf(time * 1000);
-    });
-    gsap.ticker.lagSmoothing(0);
+    };
+
+    gsap.ticker.add(rafHandler);
+    gsap.ticker.lagSmoothing(500, 33);
 
     return () => {
       lenis.destroy();
-      gsap.ticker.remove((time) => lenis.raf(time * 1000));
+      gsap.ticker.remove(rafHandler);
     };
   }, [loadingComplete]);
 
