@@ -37,20 +37,44 @@ export default function MenuSection({ menu }) {
   const getFiltered = () => {
     let items = enabledMenu;
 
-    if (activeFilter !== 'all') {
-      items = items.filter((item) => {
-        const cat = String(item.category || '').toLowerCase().replace(/[-_\s]/g, '');
-        const target = activeFilter.toLowerCase().replace(/[-_\s]/g, '');
-        return cat === target;
-      });
-    }
+    const isVegItem = (item) => {
+      const cat = String(item.category || '').toLowerCase();
+      return cat === 'veg' || cat === 'vegetarian';
+    };
 
-    if (activeFilter === 'drinks' && activeDrinkFilter !== 'all-drinks') {
-      items = items.filter((item) => {
-        const t = String(item.type || '').toLowerCase().replace(/[-_\s]/g, '');
-        const target = activeDrinkFilter.toLowerCase().replace(/[-_\s]/g, '');
-        return t === target;
-      });
+    const isNonVegItem = (item) => {
+      const cat = String(item.category || '').toLowerCase();
+      return cat.includes('non');
+    };
+
+    const isDrinkItem = (item) => {
+      const cat = String(item.category || '').toLowerCase();
+      return cat.includes('drink') || cat.includes('beverage');
+    };
+
+    const isNonAlcoholicType = (item) => {
+      const t = String(item.type || '').toLowerCase();
+      const sub = String(item.subCategory || '').toLowerCase();
+      const s = `${t} ${sub}`;
+      return s.includes('non') || s.includes('mocktail') || s.includes('soft') || s.includes('juice');
+    };
+
+    const isAlcoholicType = (item) => {
+      return !isNonAlcoholicType(item);
+    };
+
+    if (activeFilter === 'veg') {
+      items = items.filter(isVegItem);
+    } else if (activeFilter === 'nonVeg') {
+      items = items.filter(isNonVegItem);
+    } else if (activeFilter === 'drinks') {
+      items = items.filter(isDrinkItem);
+
+      if (activeDrinkFilter === 'alcoholic') {
+        items = items.filter(isAlcoholicType);
+      } else if (activeDrinkFilter === 'nonAlcoholic') {
+        items = items.filter(isNonAlcoholicType);
+      }
     }
 
     return items.sort((a, b) => (Number(a.sortOrder) || 0) - (Number(b.sortOrder) || 0));
@@ -183,8 +207,8 @@ export default function MenuSection({ menu }) {
           aria-label={`${activeFilter} menu items`}
         >
           {filtered.length > 0 ? (
-            filtered.map((item) => (
-              <MenuCard key={item.id} item={item} />
+            filtered.map((item, idx) => (
+              <MenuCard key={`${item.id || 'item'}-${item.name || ''}-${idx}`} item={item} />
             ))
           ) : (
             <div className="menu-section__empty" role="status">

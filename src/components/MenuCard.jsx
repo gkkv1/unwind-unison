@@ -42,19 +42,28 @@ export default function MenuCard({ item }) {
     card.style.setProperty('--mouse-y', `${y * 100}%`);
   };
 
-  const isVeg = item.category === 'veg';
-  const isAlcoholic = item.type === 'alcoholic';
-  const isDrink = item.category === 'drinks';
+  const cat = String(item.category || '').toLowerCase();
+  const subCat = String(item.subCategory || '').toLowerCase();
+  const rawType = String(item.type || '').toLowerCase();
 
-  const type = typeConfig[item.type] || typeConfig[item.category] || { label: '', color: '' };
-  const emoji = categoryEmoji[item.subCategory] || categoryEmoji['default'];
+  const isDrink = cat.includes('drink') || cat.includes('beverage');
+  const isNonAlcoholic = isDrink && (rawType.includes('non') || subCat.includes('mocktail') || subCat.includes('soft') || subCat.includes('juice'));
+  const isAlcoholic = isDrink && !isNonAlcoholic;
+  const isNonVeg = !isDrink && (cat.includes('non') || rawType.includes('non'));
+  const isVeg = !isDrink && !isNonVeg;
+
+  const type = isDrink
+    ? (isAlcoholic ? typeConfig.alcoholic : typeConfig.nonAlcoholic)
+    : (isNonVeg ? typeConfig.nonVeg : typeConfig.veg);
+
+  const emoji = categoryEmoji[item.subCategory] || (isDrink ? '🍸' : '🍽️');
 
   return (
     <div
       ref={cardRef}
       className={`menu-card glass-card ${isDrink ? 'menu-card--drink' : ''} ${isAlcoholic ? 'menu-card--alcoholic' : ''}`}
       onMouseMove={handleMouseMove}
-      id={`menu-card-${item.id}`}
+      id={`menu-card-${item.id || ''}-${item.name || ''}`}
     >
       {/* Hover spotlight */}
       <div className="menu-card__spotlight" aria-hidden="true" />
