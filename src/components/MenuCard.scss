@@ -1,0 +1,203 @@
+.menu-card {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  position: relative;
+  padding: 24px;
+  overflow: hidden;
+  cursor: default;
+  transition: transform 0.3s var(--ease-smooth),
+              box-shadow 0.3s var(--ease-smooth),
+              border-color 0.3s;
+
+  @media (max-width: 767px) {
+    padding: 16px;
+
+    .menu-card__emoji { font-size: 26px; }
+    .menu-card__icon-area { height: 48px; margin-bottom: 10px; }
+    .menu-card__name { font-size: 13px; }
+    .menu-card__description { font-size: 11px; line-height: 1.4; }
+    .menu-card__subcategory { font-size: 9px; }
+  }
+
+  @media (max-width: 360px) {
+    padding: 12px;
+    .menu-card__name { font-size: 12px; }
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: rgba(168, 85, 247, 0.25);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+
+    .menu-card__spotlight {
+      opacity: 1;
+    }
+
+    .steam-line {
+      animation-play-state: running;
+    }
+
+    .bubble {
+      animation-play-state: running;
+    }
+
+    .menu-card__emoji {
+      transform: scale(1.15);
+    }
+  }
+
+  &--drink {
+    border-color: rgba(56, 189, 248, 0.15);
+
+    &:hover {
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+  }
+
+  &--alcoholic {
+    border-color: rgba(168, 85, 247, 0.15);
+
+    &:hover {
+      border-color: rgba(168, 85, 247, 0.3);
+      box-shadow: 0 20px 40px rgba(168, 85, 247, 0.1);
+    }
+  }
+}
+
+// Hover spotlight
+.menu-card__spotlight {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--mouse-x) var(--mouse-y),
+    rgba(168, 85, 247, 0.08) 0%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+// Icon area
+.menu-card__icon-area {
+  position: relative;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.menu-card__emoji {
+  font-size: 32px;
+  line-height: 1;
+  transition: transform 0.3s var(--ease-spring);
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+}
+
+// Steam effect
+.menu-card__steam {
+  position: absolute;
+  left: 10px;
+  top: -8px;
+  display: flex;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.steam-line {
+  width: 2px;
+  height: 20px;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.2), transparent);
+  border-radius: 2px;
+  animation: steam 2s ease-in-out infinite;
+  animation-play-state: paused;
+  transform-origin: bottom center;
+  animation-delay: calc(var(--i) * 0.3s);
+}
+
+// Bubble effect (drinks)
+.menu-card__bubbles {
+  position: absolute;
+  left: 14px;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.bubble {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(56, 189, 248, 0.5);
+  border-radius: 50%;
+  animation: bubble-rise 2s ease-in-out infinite;
+  animation-play-state: paused;
+  animation-delay: calc(var(--i) * 0.4s);
+  left: calc(var(--i) * 8px);
+}
+
+// Content
+.menu-card__content {
+  position: relative;
+  z-index: 1;
+}
+
+.menu-card__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.menu-card__name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  flex: 1;
+}
+
+.menu-card__type-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.menu-card__subcategory {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.menu-card__description {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+// Veg indicator (green box, like restaurant menus)
+.menu-card__veg-indicator {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid #22c55e;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-card__veg-dot {
+  width: 6px;
+  height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+}

@@ -1,0 +1,142 @@
+.price-section {
+  position: relative;
+  padding: var(--section-padding) 0;
+  overflow: hidden;
+  background: var(--bg-primary);
+  text-align: center;
+}
+
+.price-section__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.price-section__orb {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.08), transparent 70%);
+  border-radius: 50%;
+  animation: breathe 5s ease-in-out infinite;
+}
+
+.price-section__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.price-card {
+  position: relative;
+  background: var(--glass-background);
+  backdrop-filter: blur(30px);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-xl);
+  padding: 48px;
+  max-width: 400px;
+  width: 100%;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.1), 0 40px 80px rgba(0, 0, 0, 0.4);
+  animation: pulse-glow 4s ease-in-out infinite;
+
+  @media (max-width: 479px) {
+    padding: 32px 24px;
+  }
+}
+
+.price-card__header {
+  margin-bottom: 28px;
+}
+
+.price-card__eyebrow {
+  margin-bottom: 16px;
+}
+
+.price-card__amount {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.price-card__currency {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 48px);
+  color: var(--accent-primary);
+  line-height: 1;
+}
+
+.price-card__number {
+  font-family: var(--font-display);
+  font-size: clamp(72px, 12vw, 120px);
+  line-height: 0.9;
+  background: linear-gradient(135deg, var(--text-primary), var(--accent-primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+}
+
+.price-card__placeholder {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 6vw, 72px);
+  color: var(--text-muted);
+}
+
+.price-card__per {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.price-card__divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-accent), transparent);
+  margin: 0 0 28px;
+}
+
+.price-card__inclusions {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+}
+
+.price-card__inclusion-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.price-card__check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(168, 85, 247, 0.15);
+  color: var(--accent-primary);
+  flex-shrink: 0;
+  border: 1px solid rgba(168, 85, 247, 0.25);
+}
+
+.price-card__glow {
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(236, 72, 153, 0.05));
+  pointer-events: none;
+  z-index: -1;
+}

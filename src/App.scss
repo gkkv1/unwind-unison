@@ -1,0 +1,30 @@
+@use './styles/variables' as *;
+@use './styles/global';
+@use './styles/animations';
+
+.app {
+  min-height: 100vh;
+}
+
+#main-content {
+  position: relative;
+}
+
+// Skip to content link (accessibility)
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 20px;
+  z-index: 9999;
+  background: var(--accent-primary);
+  color: white;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:focus {
+    top: 20px;
+  }
+}

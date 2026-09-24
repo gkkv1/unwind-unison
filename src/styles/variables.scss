@@ -1,0 +1,124 @@
+// ============================================================
+// ODC PARTY — DESIGN SYSTEM VARIABLES
+// ============================================================
+
+// --- Color Tokens ---
+:root {
+  // Backgrounds
+  --bg-primary: #050507;
+  --bg-secondary: #0a0a10;
+  --bg-tertiary: #0f0f1a;
+  --bg-card: rgba(255, 255, 255, 0.03);
+
+  // Text
+  --text-primary: #f0f0f8;
+  --text-secondary: #8888a8;
+  --text-muted: #4a4a6a;
+  --text-accent: #c084fc;
+
+  // Accent Colors
+  --accent-primary: #a855f7;    // Purple
+  --accent-secondary: #ec4899;  // Magenta
+  --accent-blue: #38bdf8;       // Electric Blue
+  --accent-gold: #f59e0b;       // Warm gold
+
+  // Glow
+  --glow-primary: rgba(168, 85, 247, 0.4);
+  --glow-secondary: rgba(236, 72, 153, 0.3);
+  --glow-blue: rgba(56, 189, 248, 0.25);
+  --glow-soft: rgba(168, 85, 247, 0.15);
+
+  // Glass
+  --glass-background: rgba(255, 255, 255, 0.04);
+  --glass-background-strong: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-accent: rgba(168, 85, 247, 0.3);
+
+  // Gradients
+  --gradient-hero: linear-gradient(135deg, #050507 0%, #0d0518 50%, #050507 100%);
+  --gradient-purple: linear-gradient(135deg, #a855f7, #ec4899);
+  --gradient-purple-blue: linear-gradient(135deg, #a855f7, #38bdf8);
+  --gradient-card: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.05));
+
+  // Typography
+  --font-display: 'Bebas Neue', 'Impact', sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  // Spacing
+  --section-padding: clamp(60px, 10vw, 140px);
+  --container-max: 1400px;
+  --container-padding: clamp(16px, 5vw, 80px);
+
+  // Radius
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+
+  // Transitions
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-inout: cubic-bezier(0.87, 0, 0.13, 1);
+  --duration-fast: 200ms;
+  --duration-normal: 400ms;
+  --duration-slow: 700ms;
+
+  // Z-indexes
+  --z-base: 1;
+  --z-card: 10;
+  --z-nav: 100;
+  --z-overlay: 200;
+  --z-modal: 300;
+  --z-loading: 400;
+}
+
+// --- SCSS Variables ---
+$bp-xs: 360px;
+$bp-sm: 480px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1280px;
+$bp-2xl: 1440px;
+
+// Mixins
+@mixin respond-to($bp) {
+  @if $bp == xs {
+    @media (max-width: 479px) { @content; }
+  } @else if $bp == sm {
+    @media (max-width: 767px) { @content; }
+  } @else if $bp == md {
+    @media (max-width: 1023px) { @content; }
+  } @else if $bp == lg {
+    @media (min-width: 1024px) { @content; }
+  } @else if $bp == xl {
+    @media (min-width: 1280px) { @content; }
+  }
+}
+
+@mixin glass {
+  background: var(--glass-background);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+}
+
+@mixin glass-strong {
+  background: var(--glass-background-strong);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@mixin glow($color: var(--accent-primary), $size: 40px) {
+  box-shadow: 0 0 $size rgba(168, 85, 247, 0.3);
+}
+
+@mixin text-gradient($from: var(--accent-primary), $to: var(--accent-secondary)) {
+  background: linear-gradient(135deg, $from, $to);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
