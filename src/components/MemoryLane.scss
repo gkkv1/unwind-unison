@@ -3,6 +3,11 @@
   overflow: hidden;
   background: var(--bg-primary);
 
+  // Mobile: ensure vertical page scroll is never blocked by the inner gallery
+  @media (max-width: 767px) {
+    touch-action: pan-y;
+  }
+
   // Gradient top fade from hero
   &::before {
     content: '';
@@ -84,12 +89,13 @@
   padding: 20px 0 40px;
   will-change: transform;
 
-  // Mobile: enable smooth horizontal scroll without trapping vertical scroll
+  // Mobile: horizontal scroll on the track only; vertical swipes escape to the page
   @media (max-width: 767px) {
     overflow-x: auto;
     scroll-snap-type: x proximity;
     -webkit-overflow-scrolling: touch;
-    touch-action: pan-x pan-y;
+    // pan-x only — vertical swipes are NOT consumed here, they pass to the page
+    touch-action: pan-x;
     overscroll-behavior-x: contain;
     scrollbar-width: none;
     padding: 20px 20px 40px;
@@ -99,7 +105,8 @@
     .media-card {
       scroll-snap-align: center;
       width: clamp(240px, 75vw, 320px);
-      touch-action: pan-x pan-y;
+      // Cards also only intercept horizontal — vertical escapes
+      touch-action: pan-x;
     }
   }
 }

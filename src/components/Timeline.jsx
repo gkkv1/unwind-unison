@@ -24,6 +24,12 @@ export default function Timeline({ timeline }) {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion || !lineRef.current) return;
 
+    // Refresh ScrollTrigger after a tick so MemoryLane's pin height is
+    // already baked in — prevents timeline items getting stuck at opacity 0
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 300);
+
     const ctx = gsap.context(() => {
       // Animate the vertical progress line
       gsap.fromTo(lineRef.current,
@@ -41,10 +47,14 @@ export default function Timeline({ timeline }) {
       );
 
       // Animate each item
+      // On mobile use an earlier start (90%) so items don't need to be
+      // fully visible before the trigger fires — prevents the "stuck invisible" bug
       const itemEls = sectionRef.current.querySelectorAll('.timeline-item');
       const isMobile = window.innerWidth <= 767;
+      const triggerStart = isMobile ? 'top 92%' : 'top 80%';
+
       itemEls.forEach((el, i) => {
-        const xOffset = isMobile ? -30 : (i % 2 === 0 ? -40 : 40);
+        const xOffset = isMobile ? -20 : (i % 2 === 0 ? -40 : 40);
         gsap.fromTo(el,
           { opacity: 0, x: xOffset },
           {
@@ -54,7 +64,7 @@ export default function Timeline({ timeline }) {
             ease: 'power3.out',
             scrollTrigger: {
               trigger: el,
-              start: 'top 80%',
+              start: triggerStart,
               once: true,
             },
           }
@@ -62,7 +72,10 @@ export default function Timeline({ timeline }) {
       });
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      clearTimeout(refreshTimer);
+      ctx.revert();
+    };
   }, [items.length]);
 
   return (
